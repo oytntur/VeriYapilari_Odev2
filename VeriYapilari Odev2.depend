@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1621779119 source:c:\users\oytun\desktop\c++\veriyapilari odev2\main.cpp
+	<iostream>
+	<stdio.h>
+	<cstring>
+	<fstream>
+	<sstream>
+	<stdlib.h>
+
