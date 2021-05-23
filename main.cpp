@@ -166,59 +166,32 @@ int main()
     }
     return 0;
 }
-
-void dosyayaYaz(struct ogrenci* dugum)
+void listele(struct ogrenci* dugum)
 {
-    ofstream dosya("ogrenciler.txt");
     int count;
     struct ogrenci* iter = dugum;
     struct ders* temp;
-    string satir;
-    if ( ! dosya.is_open())
-        cout<<"\ndosya acilamadi\n";
-
     while (iter != nullptr)
     {
-        satir = "";
         temp = iter->dersdugumu;
         count = 0;
         while (temp != nullptr)
         {
             if(count == 0)
             {
-                satir.append(iter->ogrno);
-                satir.append(" ");
-                satir.append(iter->ad);
-                satir.append(" ");
-                satir.append(iter->soyad);
-                satir.append(" ");
+                cout<<endl;
+                cout << iter->ogrno <<" ";
+                cout << iter->ad    <<" ";
+                cout << iter->soyad <<" ";
                 count = 1;
             }
-            satir.append(temp->dersadi);
-            satir.append(" ");
-            satir.append(temp->derskodu);
-            satir.append(" ");
+            cout << temp->dersadi <<" ";
+            cout << temp->derskodu<<" ";
             temp = temp->sonraki;
         }
-        satir.append("\n");
-        dosya << satir;
         iter = iter->sonraki;
     }
-    dosya.close();
 }
-
-int bul(struct ogrenci** dugum, char numara[30])
-{
-    struct ogrenci* current = *dugum;
-    while (current != nullptr)
-    {
-        if (atoi(current->ogrno) == atoi(numara))
-            return 1;
-        current = current->sonraki;
-    }
-    return 0;
-}
-
 struct ogrenci* kisi_ekle(struct ogrenci** dugum, char numara[30], char isim[30], char soyad[30],char derskodu[30], char dersadi[30])
 {
     //cout<<numara<<" "<<isim<<" "<<soyad<<" "<<derskodu<<" "<<dersadi<<endl;
@@ -272,38 +245,6 @@ struct ogrenci* kisi_ekle(struct ogrenci** dugum, char numara[30], char isim[30]
     }
     return *dugum;
 }
-
-struct ogrenci* listeKur(struct ogrenci** dugum)
-{
-    fstream read;
-    string satir, kelime;
-    int i=0;
-    char files[3][50] = {"mat101.txt","fiz101.txt","eng101.txt"};
-    char derskod[50], dersad[50], ad[50], soyad[50], numara[50];
-
-    for ( i = 0; i < 3; i++)
-    {
-        read.open(files[i]);
-
-        getline(read, satir);
-        stringstream s(satir);
-        s>>derskod;
-        s>>dersad;
-
-        while (getline(read, satir))
-        {
-            stringstream s(satir);
-            s>>numara;
-            s>>ad;
-            s>>soyad;
-            *dugum = kisi_ekle(dugum, numara,ad, soyad, derskod, dersad);
-            ogrenci** temp = dugum;
-        }
-        read.close();
-    }
-    return *dugum;
-}
-
 struct ogrenci* ara(struct ogrenci* dugum,char anahtar[30])
 {
     int i = 0;
@@ -337,6 +278,92 @@ struct ogrenci* ara(struct ogrenci* dugum,char anahtar[30])
     }
     return nullptr;
 }
+void dosyayaYaz(struct ogrenci* dugum)
+{
+    ofstream dosya("ogrenciler.txt");
+    int count;
+    struct ogrenci* iter = dugum;
+    struct ders* temp;
+    string satir;
+    if ( ! dosya.is_open())
+        cout<<"\ndosya acilamadi\n";
+
+    while (iter != nullptr)
+    {
+        satir = "";
+        temp = iter->dersdugumu;
+        count = 0;
+        while (temp != nullptr)
+        {
+            if(count == 0)
+            {
+                satir.append(iter->ogrno);
+                satir.append(" ");
+                satir.append(iter->ad);
+                satir.append(" ");
+                satir.append(iter->soyad);
+                satir.append(" ");
+                count = 1;
+            }
+            satir.append(temp->dersadi);
+            satir.append(" ");
+            satir.append(temp->derskodu);
+            satir.append(" ");
+            temp = temp->sonraki;
+        }
+        satir.append("\n");
+        dosya << satir;
+        iter = iter->sonraki;
+    }
+    dosya.close();
+}
+
+int bul(struct ogrenci** dugum, char numara[30])
+{
+    struct ogrenci* current = *dugum;
+    while (current != nullptr)
+    {
+        if (atoi(current->ogrno) == atoi(numara))
+            return 1;
+        current = current->sonraki;
+    }
+    return 0;
+}
+
+
+
+struct ogrenci* listeKur(struct ogrenci** dugum)
+{
+    fstream read;
+    string satir, kelime;
+    int i=0;
+    char files[3][50] = {"mat101.txt","fiz101.txt","eng101.txt"};
+    char derskod[50], dersad[50], ad[50], soyad[50], numara[50];
+
+    for ( i = 0; i < 3; i++)
+    {
+        read.open(files[i]);
+
+        getline(read, satir);
+        stringstream s(satir);
+        s>>derskod;
+        s>>dersad;
+
+        while (getline(read, satir))
+        {
+            stringstream s(satir);
+            s>>numara;
+            s>>ad;
+            s>>soyad;
+            *dugum = kisi_ekle(dugum, numara,ad, soyad, derskod, dersad);
+            ogrenci** temp = dugum;
+        }
+        read.close();
+    }
+    return *dugum;
+}
+
+
 
 struct ogrenci* ogrenciSil(struct ogrenci** dugum,char numara[30])
 {
@@ -427,32 +454,7 @@ struct ogrenci* dersSil(struct ogrenci** dugum, char numara[30],char kod[10])
     }
     return nullptr;
 }
-void listele(struct ogrenci* dugum)
-{
-    int count;
-    struct ogrenci* iter = dugum;
-    struct ders* temp;
-    while (iter != nullptr)
-    {
-        temp = iter->dersdugumu;
-        count = 0;
-        while (temp != nullptr)
-        {
-            if(count == 0)
-            {
-                cout<<endl;
-                cout << iter->ogrno <<" ";
-                cout << iter->ad    <<" ";
-                cout << iter->soyad <<" ";
-                count = 1;
-            }
-            cout << temp->dersadi <<" ";
-            cout << temp->derskodu<<" ";
-            temp = temp->sonraki;
-        }
-        iter = iter->sonraki;
-    }
-}
+
 void kesisimBul(struct ogrenci* dugum,char kod1[10],char kod2[10])
 {
     int count,kontrol;
