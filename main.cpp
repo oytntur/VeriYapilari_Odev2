@@ -24,15 +24,15 @@ struct ders
     struct ders* sonraki;
 };
 
-int bul(struct ogrenci** dugum, char numara[30]);
-struct ogrenci* kisi_ekle(struct ogrenci** dugum, char numara[30], char isim[30], char soyad[30],char derskodu[30], char dersadi[30]);
-struct ogrenci* listeKur(struct ogrenci** dugum);
-struct ogrenci* ara(struct ogrenci* dugum,char key[30]);
-struct ogrenci* ogrenciSil(struct ogrenci** dugum,char numara[30]);
-struct ogrenci* dersSil(struct ogrenci** dugum, char numara[30],char kod[10]);
-void listele(struct ogrenci* dugum);
-void kesisimBul(struct ogrenci* dugum,char kod1[10],char kod2[10]);
-void dosyayaYaz(struct ogrenci* dugum);
+int bul(struct ogrenci** dugum, char numara[30]);//en son okunan öğrenciden sonra öğrenci olup olmadığını kontrol ediyor
+struct ogrenci* kisi_ekle(struct ogrenci** dugum, char numara[30], char isim[30], char soyad[30],char derskodu[30], char dersadi[30]);// listeye kişi ekliyor
+struct ogrenci* listeKur(struct ogrenci** dugum);//kişi ekle fonksiyonunu kullanarak liste oluşturuyor
+struct ogrenci* ara(struct ogrenci* dugum,char key[30]);//öğrenci numarası veya soyadı ile öğrenci buluyor
+struct ogrenci* ogrenciSil(struct ogrenci** dugum,char numara[30]);//ara metodunu kullanarak öğrenci siliyor
+struct ogrenci* dersSil(struct ogrenci** dugum, char numara[30],char kod[10]);//ara metodunu kullanarak öğrencideki girilen dersi siliyor
+void listele(struct ogrenci* dugum);//anlık listeyi ekrana yazdırıyor
+void kesisimBul(struct ogrenci* dugum,char kod1[10],char kod2[10]);//girilen iki ders kodu bulunan öğrencileri ekrana yazdırıyor
+void dosyayaYaz(struct ogrenci* dugum);//öğrenciler.txt dosyasını oluşturuyor
 
 int main()
 {
@@ -371,7 +371,7 @@ struct ogrenci* ogrenciSil(struct ogrenci** dugum,char numara[30])
     if (kontrol != nullptr && kontrol->sonraki != nullptr)
     {
         struct ogrenci* temp;
-        //Ilk ��renci ise
+        //Ilk öðrenci ise
         if (atoi((*dugum)->ogrno) == atoi(numara) )
         {
             while ((*dugum)->dersdugumu != nullptr)
